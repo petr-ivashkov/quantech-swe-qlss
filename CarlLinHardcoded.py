@@ -1,6 +1,3 @@
-import numpy as np
-import sys
-
 class LBM_2_Carlemann:
     def __init__(self):
         # Constants for the D1Q3 lattice (1D, 3 velocities)
@@ -12,7 +9,7 @@ class LBM_2_Carlemann:
 
         # Parameters
         self.tau = 1.0  # Relaxation time
-        self.Nx = 10  # Number of grid points...my code for the F matrices makes the kernel die if this number is 81 or higher
+        self.Nx = 5  # Number of grid points...my code for the F matrices makes the kernel die if this number is 81 or higher
         self.L = 10.0  # Length of the domain (in meters)
 
         # Initialize macroscopic variables: density(height) and velocity field
@@ -45,7 +42,7 @@ class LBM_2_Carlemann:
         moment_0 = np.sum(self.f, axis=-1)  # Moment 0: density
         moment_1 = np.sum(self.f * self.e, axis=-1)  # Moment 1: momentum (density * velocity)
         return moment_0, moment_1
-    '''
+    
     
     #function to build the carleman linearization matrices...keep?
     def carleman_lin_matrix(self):
@@ -53,11 +50,11 @@ class LBM_2_Carlemann:
         Cs = gen_streaming(self)
         C = Cc + Cs
         return C
-
+    '''
      #return a 1D array with one non-zero element of value 1 at specified index
     def one_nonzero(self,dim, n):
         array = np.zeros((dim))
-        if n>-1 and n<dim+1:
+        if n>-1 and n<dim:
             array[n] = 1
         return array
     #make the F matrices for the collision matrix for n grid points
@@ -101,19 +98,26 @@ class LBM_2_Carlemann:
         f3 = np.hstack((f3,f3,f3))
         f3 = (1/(self.tau*self.kn))*f3
 
-        #generalise to n grid points
-        dim = self.Nx
+        #generalise to n grid points...strategy is to stack matrices, not create matrix of matrices I think...?
+        n = self.Nx
         Q = len(self.e)
+        '''
         F1 = np.zeros((dim,Q, dim*Q))
         F2 = np.zeros((dim,Q, (dim**2)*(Q**2)))
         F3 = np.zeros((dim,Q, (dim**3)*(Q**3)))
+        '''
+        I = self.one_nonzero(n, 0)
+        F1 = np.kron(I, f1)
+        F2 = np.kron(np.kron(I,I) , f2)
+        F3 = np.kron(np.kron(np.kron(I, I), I), f3)
         
-        for i in range(dim):
-            print("this is i: " , i)
-            I = self.one_nonzero(dim, i)
-            F1[i] = np.kron(I, f1)
-            F2[i] = np.kron(np.kron(I,I) , f2)
-            F3[i] = np.kron(np.kron(np.kron(I, I), I), f3)
+
+        for i in range(n-1):
+            print("this is i: " , i+1)
+            I = self.one_nonzero(n, i+1)
+            F1 = np.vstack((F1, np.kron(I, f1)))
+            F2 = np.vstack((F2, np.kron(np.kron(I,I) , f2)))
+            F3 = np.vstack((F3, np.kron(np.kron(np.kron(I, I), I), f3)))
         
         return F1,F2,F3
         
@@ -158,10 +162,10 @@ class LBM_2_Carlemann:
         S = np.zeros((dim, dim))
         for i in range(dim):
             #deal with edge case here...periodic or bounce back BC...here I do code for periodic
-            if i<3:
+            if i<Q:
                 S[i,i+Q] = inv_delta*self.e[(i%3)-1]
-                S[i, (dim-2)+i] = -inv_delta*self.e[(i%3)-1]
-            elif i>dim -3:
+                S[i, (dim-Q)+i] = -inv_delta*self.e[(i%3)-1]
+            elif i>dim -Q - 1:
                 S[i,dim-i] = inv_delta*self.e[(i%3)-1]
                 S[i,i-Q] = -inv_delta*self.e[(i%3)-1]
             else:
@@ -184,42 +188,7 @@ class LBM_2_Carlemann:
         
 
 
-#Test to see if I have the right matrices
-Matrix_C = LBM_2_Carlemann()
-F1,F2,F3  = Matrix_C.gen_F()
 
-A11, A12, A13, A22, A23, A33 = Matrix_C.gen_A(F1,F2,F3)
-C = Matrix_C.gen_collision(A11, A12, A13, A22, A23, A33)
+    
 
-#print collision matrix and intermediate matrices
-np.set_printoptions(threshold=sys.maxsize)
-print("checking the dimensions of the matrices \n")
-print("dim Matrix F1: \n", F1.shape)
-print("dim Matrix F2: \n", F2.shape)
-print("dim Matrix F3: \n", F3.shape)
-print(" \n")
-
-'''
-print("dim Matrix A11: \n", A11.shape)
-print("dim Matrix A12: \n", A12.shape)
-print("dim Matrix A13: \n", A13.shape)
-print("dim Matrix A22: \n", A22.shape)
-print("dim Matrix A23: \n", A23.shape)
-print("dim Matrix A33: \n", A33.shape)
-print(" \n")
-print("dim Carleman collision matrix: \n", C.shape)
-print("\n")
-print("checking the entries of the matrices \n")
-print("Matrix F1: \n", F1)
-print("Matrix F2: \n", F2)
-print("Matrix F3: \n", F3)
-print(" \n")
-print("Matrix A11: \n", A11)
-print("Matrix A12: \n", A12)
-print("Matrix A13: \n", A13)
-print("Matrix A22: \n", A22)
-print("Matrix A23: \n", A23)
-print("Matrix A33: \n", A33)
-print(" \n")
-print("Carleman collision matrix: \n", C)
-'''
+    
