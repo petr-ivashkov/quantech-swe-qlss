@@ -1,3 +1,6 @@
+import numpy as np
+import sys
+
 class LBM_2_Carlemann:
     def __init__(self):
         # Constants for the D1Q3 lattice (1D, 3 velocities)
@@ -188,7 +191,48 @@ class LBM_2_Carlemann:
         
 
 
+#Test to see if I have the right matrices
+Matrix_C = LBM_2_Carlemann()
+F1,F2,F3  = Matrix_C.gen_F()
 
+A11, A12, A13, A22, A23, A33 = Matrix_C.gen_A(F1,F2,F3)
+Cc = Matrix_C.gen_collision(A11, A12, A13, A22, A23, A33)
+Cs = Matrix_C.gen_streaming()
+
+C = Cc +Cs
+print("This is the dimension of C: \n", C.shape)
+#print collision matrix and intermediate matrices
+np.set_printoptions(threshold=sys.maxsize)
+print("checking the dimensions of the matrices \n")
+print("dim Matrix F1: \n", F1.shape)
+print("dim Matrix F2: \n", F2.shape)
+print("dim Matrix F3: \n", F3.shape)
+print(" \n")
+
+'''
+print("dim Matrix A11: \n", A11.shape)
+print("dim Matrix A12: \n", A12.shape)
+print("dim Matrix A13: \n", A13.shape)
+print("dim Matrix A22: \n", A22.shape)
+print("dim Matrix A23: \n", A23.shape)
+print("dim Matrix A33: \n", A33.shape)
+print(" \n")
+print("dim Carleman collision matrix: \n", C.shape)
+print("\n")
+print("checking the entries of the matrices \n")
+print("Matrix F1: \n", F1)
+print("Matrix F2: \n", F2)
+print("Matrix F3: \n", F3)
+print(" \n")
+print("Matrix A11: \n", A11)
+print("Matrix A12: \n", A12)
+print("Matrix A13: \n", A13)
+print("Matrix A22: \n", A22)
+print("Matrix A23: \n", A23)
+print("Matrix A33: \n", A33)
+print(" \n")
+print("Carleman collision matrix: \n", C)
+'''
     
 
     
