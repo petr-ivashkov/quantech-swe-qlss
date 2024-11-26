@@ -19,7 +19,7 @@ num_subvectors = 3    # Number of subvectors
 total_dim = subvector_dim * num_subvectors  # Total size of x
 
 # Generate the sparse matrix A and the RHS vector b
-A = generate_sparse_matrix(total_dim, density=0.00001)
+A = generate_sparse_matrix(total_dim, density=0.001)
 b = np.random.rand(total_dim)
 
 # Preconditioner: Incomplete LU (ILU)
@@ -47,6 +47,6 @@ residual = np.linalg.norm(A @ x - b)
 print(f"Residual norm: {residual}")
 
 # Print the first three entries of each subvector
-print("First three entries of x_1:", x_1[:3])
-print("First three entries of x_2:", x_2[:3])
-print("First three entries of x_3:", x_3[:3])
+print("First three entries of x_1:",x_1[:3])
+print("First three entries of x_2:",x_2[:3])
+print("First three entries of x_3:",x_3[:3])
