@@ -15,7 +15,7 @@ def generate_sparse_matrix(n, density=0.01):
 
 # Problem dimensions (reduced by a factor of 10)
 subvector_dim = 27930  # Reduced size of each subvector x_1, x_2, x_3
-num_subvectors = 3    # Number of subvectors
+num_subvectors = 10    # Number of subvectors
 total_dim = subvector_dim * num_subvectors  # Total size of x
 
 # Generate the sparse matrix A and the RHS vector b
