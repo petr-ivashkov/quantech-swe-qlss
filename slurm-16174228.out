@@ -1,0 +1,33 @@
+this is i:  0
+this is i:  1
+this is i:  2
+this is i:  3
+this is i:  4
+this is i:  5
+this is i:  6
+this is i:  7
+this is i:  8
+this is i:  9
+just made A11 
+
+just made A12 
+
+just made A13 
+
+just made A22 
+
+just made A23 
+
+just made A33 
+
+Traceback (most recent call last):
+  File "/cluster/home/zbinczyk/quantech-swe-qlss/CarlLinHardcoded.py", line 192, in <module>
+    C = Matrix_C.gen_collision(A11, A12, A13, A22, A23, A33)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/home/zbinczyk/quantech-swe-qlss/CarlLinHardcoded.py", line 143, in gen_collision
+    C1 = np.vstack((A11,np.zeros((A22.shape[0]+A33.shape[0],A11.shape[1]))))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/cluster/software/stacks/2024-05/spack/opt/spack/linux-ubuntu22.04-x86_64_v3/gcc-13.2.0/python-3.11.6-m4n2ny4dwaqmeobuqquo3gpyw2bct67i/lib/python3.11/site-packages/numpy/core/shape_base.py", line 289, in vstack
+    return _nx.concatenate(arrs, 0, dtype=dtype, casting=casting)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: all the input arrays must have same number of dimensions, but the array at index 0 has 3 dimension(s) and the array at index 1 has 2 dimension(s)

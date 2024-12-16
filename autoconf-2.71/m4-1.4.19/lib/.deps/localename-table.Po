@@ -1,0 +1,4 @@
+localename-table.o: localename-table.c /usr/include/stdc-predef.h \
+ config.h
+/usr/include/stdc-predef.h:
+config.h:
