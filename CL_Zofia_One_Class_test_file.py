@@ -122,6 +122,8 @@ class LBM_2_Carlemann1:
 
         Cc = np.hstack((C1,C2,C3))
 
+        print("Just made collision matrix...no time step addition")
+
         return Cc
     
     #make streaming matrix, restricted to NN, 2nd order accuracy...only makes sense if we are considering more than 1 grid point
@@ -191,7 +193,8 @@ class LBM_2_Carlemann1:
 
         S = (inv_delta)* S
 
-        print(S)
+        #print(S)
+
 
         
 
@@ -204,6 +207,8 @@ class LBM_2_Carlemann1:
         C3 = np.vstack((np.zeros((B11.shape[0]+B22.shape[0],B33.shape[1])), B33))
 
         Cs = np.hstack((C1,C2,C3))
+
+        print("Just made streaming matrix...no time step addition")
 
         return Cs, B11,B22,B33,S
 
@@ -238,9 +243,10 @@ def divide_truncated_phi(truncated_phi, N):
 
 N_grid = 10
 h_init = [0.1,0.1,0.101,0.101, 0.101, 0.101, 0.101, 0.101, 0.101, 0.101]
-u_init = [0,0,0,0, 0,0,0,0,0,0]
-N_time = 10  # Number of time steps
-
+u_init = [0,0,0,0,0]
+N_time = 5  # Number of time steps
+print("the num of grid points is: ", N_grid)
+print("the num of time steps is: ", N_time)
 Gen = LBM_2_Carlemann1(N_grid, h_init, u_init )
 
 F1,F2,F3, f1,f2,f3  = Gen.gen_F()
@@ -341,8 +347,9 @@ f3 = np.kron(f2,f1)
 phi_t0 = np.hstack((f1,f2,f3))
 
 phi = append_zeros(phi_t0, N_time)
-
+print("about to invert the matrix")
 Inverted_matrix = np.linalg.inv(Lin_Euler_Matrix)
+print("Just inverted the matrix")
 x = np.dot(Inverted_matrix, phi)
 
 grid_evolution = np.zeros((N_grid,N_time,3))
