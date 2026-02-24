@@ -3,6 +3,7 @@
 This repository has code that was used to simulate the Shallow Water Equations (SWE) (from the Navier Stokes Equations) using a mapping (Carlemann Linearization) that theoretically allows the system to be solved using quantum algortihms and thus would prove to be a more efficient method of solving the SWE when quantum hardware becomes more developped. This repository contains files with the solution of the SWE after the mapping using analytical methods (to benchmark), as well as files with solving the SWE after the mapping using a quantum linear system solver based on quantum singular value transformation. 
 
 ## Installation
+### Requirements
 
 Steps to install the project.
 
