@@ -5,7 +5,7 @@ This repository has code that was used to simulate the Shallow Water Equations (
 ## Installation
 ### Requirements
 
-Steps to install the project.
+- Python (v3.13.1 or later)
 
 ## Usage
 
