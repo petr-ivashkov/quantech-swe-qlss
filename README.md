@@ -6,6 +6,11 @@ This repository has code that was used to simulate the Shallow Water Equations (
 ### Requirements
 
 - Python (v3.13.1 or later)
+- JupyterLab (v4.3.0 or later)
+
+### Note
+
+For the analytical solution of the SWE, in order 
 
 ## Usage
 
