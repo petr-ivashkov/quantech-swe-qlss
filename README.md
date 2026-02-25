@@ -10,21 +10,15 @@ This repository has code that was used to simulate the Shallow Water Equations (
 
 ### Note
 
-For the analytical solution of the SWE, in order to run the simulation with meaningful parameter sizes, we recommend using an high perfomrance computing cluster. In this project, a Linux-based, SLURM managed cluster with mixed CPU/GPU nodes was used. It was not possible to run the simulation with the parameters needed to get meaninful results for interpretation on macOS X 10.12 with 8 GB RAM.
+For the analytical solution of the SWE, in order to run the simulation with meaningful parameter sizes, we recommend using a high perfomrance computing cluster. In this project, a Linux-based, SLURM managed cluster with mixed CPU/GPU nodes was used. It was not possible to run the simulation with the parameters needed to get meaninful results for interpretation on macOS X 10.12 with 8 GB RAM.
 
-## Usage
+## Authors
 
-How to use it, with examples.
-
-## Features
-
-- Feature 1
-- Feature 2
-
-## Contributing
-
-Guidelines for contributing.
+- Till Appel
+- Zofia Binczyk
+- Francesco Conoscenti
+- Petr Ivashkov
 
 ## License
 
-License information.
+This project is licensed under the MIT License – see the LICENSE file for details.
